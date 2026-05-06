@@ -1,4 +1,4 @@
-const IMAGE_EXTENSIONS = ['.jpg', '.jpeg', '.png', '.gif', '.webp', '.bmp']
+const IMAGE_EXTENSIONS = ['.jpg', '.jpeg', '.png', '.gif', '.webp', '.bmp', '.avif']
 
 export function isCbzFile(file) {
   return file.name.toLowerCase().endsWith('.cbz')

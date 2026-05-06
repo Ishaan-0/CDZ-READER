@@ -20,6 +20,7 @@ export default function UploadZone({ onLoad }) {
     } catch {
       setError('Failed to read file. Is it a valid .cbz?')
     } finally {
+      if (inputRef.current) inputRef.current.value = ''
       setLoading(false)
     }
   }

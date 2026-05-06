@@ -3,12 +3,12 @@ import { useKeyboard } from './useKeyboard.js'
 
 export default function Reader({ pages, currentIndex, onNavigate, onClose }) {
   const prev = useCallback(() => {
-    onNavigate(i => Math.max(0, i - 1))
-  }, [onNavigate])
+    if (currentIndex > 0) onNavigate(i => Math.max(0, i - 1))
+  }, [onNavigate, currentIndex])
 
   const next = useCallback(() => {
-    onNavigate(i => Math.min(pages.length - 1, i + 1))
-  }, [onNavigate, pages.length])
+    if (currentIndex < pages.length - 1) onNavigate(i => Math.min(pages.length - 1, i + 1))
+  }, [onNavigate, currentIndex, pages.length])
 
   useKeyboard({ onPrev: prev, onNext: next })
 

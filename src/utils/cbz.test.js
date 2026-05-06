@@ -15,13 +15,14 @@ describe('isCbzFile', () => {
 })
 
 describe('isImageEntry', () => {
-  it('returns true for jpg, png, gif, webp, bmp', () => {
+  it('returns true for jpg, png, gif, webp, bmp, avif', () => {
     expect(isImageEntry({ name: 'page001.jpg' })).toBe(true)
     expect(isImageEntry({ name: 'page001.jpeg' })).toBe(true)
     expect(isImageEntry({ name: 'page001.png' })).toBe(true)
     expect(isImageEntry({ name: 'page001.gif' })).toBe(true)
     expect(isImageEntry({ name: 'page001.webp' })).toBe(true)
     expect(isImageEntry({ name: 'page001.bmp' })).toBe(true)
+    expect(isImageEntry({ name: 'page001.avif' })).toBe(true)
   })
   it('returns false for xml, db, txt files', () => {
     expect(isImageEntry({ name: 'ComicInfo.xml' })).toBe(false)
