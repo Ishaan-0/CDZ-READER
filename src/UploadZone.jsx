@@ -4,6 +4,7 @@ import { isCbzFile, extractPages } from './utils/cbz.js'
 export default function UploadZone({ onLoad }) {
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
+  const [dragActive, setDragActive] = useState(false)
   const inputRef = useRef(null)
 
   async function handleFile(file) {
@@ -25,6 +26,7 @@ export default function UploadZone({ onLoad }) {
 
   function onDrop(e) {
     e.preventDefault()
+    setDragActive(false)
     const file = e.dataTransfer.files[0]
     if (file) handleFile(file)
   }
@@ -33,18 +35,34 @@ export default function UploadZone({ onLoad }) {
     e.preventDefault()
   }
 
+  function onDragEnter(e) {
+    e.preventDefault()
+    setDragActive(true)
+  }
+
+  function onDragLeave(e) {
+    e.preventDefault()
+    setDragActive(false)
+  }
+
   function onChange(e) {
     const file = e.target.files[0]
     if (file) handleFile(file)
   }
+
+  const borderClass = dragActive
+    ? 'border-indigo-400'
+    : 'border-gray-600 hover:border-indigo-500'
 
   return (
     <div className="min-h-screen flex items-center justify-center p-8">
       <div
         onDrop={onDrop}
         onDragOver={onDragOver}
+        onDragEnter={onDragEnter}
+        onDragLeave={onDragLeave}
         onClick={() => !loading && inputRef.current?.click()}
-        className="border-2 border-dashed border-gray-600 rounded-2xl p-16 text-center cursor-pointer hover:border-indigo-500 transition-colors max-w-md w-full"
+        className={`border-2 border-dashed ${borderClass} rounded-2xl p-16 text-center max-w-md w-full transition-colors ${loading ? 'cursor-not-allowed' : 'cursor-pointer'}`}
       >
         {loading ? (
           <div>
