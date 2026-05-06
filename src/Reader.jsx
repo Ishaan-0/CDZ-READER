@@ -16,7 +16,7 @@ export default function Reader({ pages, currentIndex, onNavigate, onClose }) {
   const atEnd = currentIndex === pages.length - 1
 
   return (
-    <div className="min-h-screen bg-gray-950 flex flex-col select-none">
+    <div className="h-screen overflow-hidden bg-gray-950 flex flex-col select-none">
       {/* Header */}
       <div className="flex items-center justify-between px-4 py-2 bg-gray-900 border-b border-gray-800">
         <button
@@ -25,7 +25,7 @@ export default function Reader({ pages, currentIndex, onNavigate, onClose }) {
         >
           ← Back
         </button>
-        <span className="text-gray-400 text-sm tabular-nums">
+        <span className="text-gray-400 text-sm tabular-nums" aria-live="polite">
           {currentIndex + 1} / {pages.length}
         </span>
         <div className="w-12" /> {/* spacer to balance the back button */}
@@ -34,10 +34,15 @@ export default function Reader({ pages, currentIndex, onNavigate, onClose }) {
       {/* Page display with tap zones */}
       <div className="flex-1 flex relative overflow-hidden">
         {/* Left tap zone */}
-        <div
-          className="absolute left-0 top-0 w-1/4 h-full z-10 cursor-pointer"
-          onClick={prev}
-        />
+        {!atStart && (
+          <div
+            role="button"
+            aria-label="Previous page"
+            tabIndex={-1}
+            className="absolute left-0 top-0 w-1/4 h-full z-10 cursor-pointer"
+            onClick={prev}
+          />
+        )}
 
         {/* Image */}
         <div className="flex-1 flex items-center justify-center p-2">
@@ -51,10 +56,15 @@ export default function Reader({ pages, currentIndex, onNavigate, onClose }) {
         </div>
 
         {/* Right tap zone */}
-        <div
-          className="absolute right-0 top-0 w-1/4 h-full z-10 cursor-pointer"
-          onClick={next}
-        />
+        {!atEnd && (
+          <div
+            role="button"
+            aria-label="Next page"
+            tabIndex={-1}
+            className="absolute right-0 top-0 w-1/4 h-full z-10 cursor-pointer"
+            onClick={next}
+          />
+        )}
       </div>
 
       {/* Footer navigation */}
