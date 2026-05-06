@@ -21,6 +21,9 @@ export async function extractPages(file) {
   const imageEntries = sortByFilename(
     Object.values(zip.files).filter(entry => !entry.dir && isImageEntry(entry))
   )
+  if (imageEntries.length === 0) {
+    throw new Error('No image entries found in this CBZ file')
+  }
   const urls = await Promise.all(
     imageEntries.map(async entry => {
       const blob = await entry.async('blob')
