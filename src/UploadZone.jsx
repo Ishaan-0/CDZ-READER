@@ -1,5 +1,5 @@
 import { useState, useRef } from 'react'
-import { isCbzFile, extractPages } from './utils/cbz.js'
+import { isComicFile, extractPages } from './utils/cbz.js'
 
 export default function UploadZone({ onLoad }) {
   const [error, setError] = useState('')
@@ -8,8 +8,8 @@ export default function UploadZone({ onLoad }) {
   const inputRef = useRef(null)
 
   async function handleFile(file) {
-    if (!isCbzFile(file)) {
-      setError('Please upload a .cbz file')
+    if (!isComicFile(file)) {
+      setError('Please upload a .cbz or .cbr file')
       return
     }
     setError('')
@@ -18,7 +18,7 @@ export default function UploadZone({ onLoad }) {
       const urls = await extractPages(file)
       onLoad(urls)
     } catch {
-      setError('Failed to read file. Is it a valid .cbz?')
+      setError('Failed to read file. Is it a valid .cbz or .cbr?')
     } finally {
       if (inputRef.current) inputRef.current.value = ''
       setLoading(false)
@@ -75,7 +75,7 @@ export default function UploadZone({ onLoad }) {
             <svg className="mx-auto mb-4 w-12 h-12 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 16v-8m0 0l-3 3m3-3l3 3M6 20h12a2 2 0 002-2V8l-6-6H6a2 2 0 00-2 2v14a2 2 0 002 2z" />
             </svg>
-            <p className="text-gray-200 text-xl font-medium mb-1">Drop a .cbz file here</p>
+            <p className="text-gray-200 text-xl font-medium mb-1">Drop a .cbz or .cbr file here</p>
             <p className="text-gray-500 text-sm">or click to browse</p>
           </>
         )}
@@ -85,7 +85,7 @@ export default function UploadZone({ onLoad }) {
         <input
           ref={inputRef}
           type="file"
-          accept=".cbz"
+          accept=".cbz,.cbr"
           onChange={onChange}
           className="hidden"
         />

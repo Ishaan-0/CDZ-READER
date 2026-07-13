@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { isCbzFile, isImageEntry, sortByFilename } from './cbz.js'
+import { isCbzFile, isCbrFile, isComicFile, isImageEntry, sortByFilename } from './cbz.js'
 
 describe('isCbzFile', () => {
   it('returns true for .cbz files', () => {
@@ -11,6 +11,30 @@ describe('isCbzFile', () => {
   it('returns false for non-cbz files', () => {
     expect(isCbzFile({ name: 'comic.pdf' })).toBe(false)
     expect(isCbzFile({ name: 'image.jpg' })).toBe(false)
+  })
+})
+
+describe('isCbrFile', () => {
+  it('returns true for .cbr files', () => {
+    expect(isCbrFile({ name: 'comic.cbr' })).toBe(true)
+  })
+  it('is case-insensitive', () => {
+    expect(isCbrFile({ name: 'COMIC.CBR' })).toBe(true)
+  })
+  it('returns false for non-cbr files', () => {
+    expect(isCbrFile({ name: 'comic.cbz' })).toBe(false)
+    expect(isCbrFile({ name: 'comic.pdf' })).toBe(false)
+  })
+})
+
+describe('isComicFile', () => {
+  it('returns true for .cbz and .cbr', () => {
+    expect(isComicFile({ name: 'comic.cbz' })).toBe(true)
+    expect(isComicFile({ name: 'comic.cbr' })).toBe(true)
+  })
+  it('returns false for other formats', () => {
+    expect(isComicFile({ name: 'comic.pdf' })).toBe(false)
+    expect(isComicFile({ name: 'image.jpg' })).toBe(false)
   })
 })
 
