@@ -5,3 +5,4 @@ dist
 notes.md
 *.cbz
 comics/
+.DS_Store/
